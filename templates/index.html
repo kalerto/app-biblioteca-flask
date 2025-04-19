@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mi Biblioteca</title>
+        
+        <!-- Enlace a Font Awesome para los iconos -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        
+        <!-- Enlace a tu CSS personalizado -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    
+<body>
+    
+    <h1>Biblioteca</h1>
+    <h2>Agregar un libro</h2>
+    <form action="/agregar" method="POST">
+        <input type="text" name="titulo" placeholder="Título" required>
+        <input type="text" name="autor" placeholder="Autor" required>
+        <input type="number" name="anio" placeholder="Año" required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <h2>Libros en la biblioteca</h2>
+    <ul>
+        {% for libro in libros %}
+        <li>
+            {{ libro.titulo }} de {{ libro.autor }} ({{ libro.anio }}) 
+            <a href="/eliminar/{{ libro.titulo }}">Eliminar</a> 
+             <!-- Icono de eliminar -->
+             <a href="/eliminar/{{ loop.index0 }}"><i class="fas fa-trash-alt"></i></a>
+
+            <a href="/editar/{{ libro.titulo }}">Editar</a>
+             <!-- Icono de editar -->
+             <a href="/editar/{{ loop.index0 }}"><i class="fas fa-pencil-alt"></i></a>
+        </li>
+        {% endfor %}
+    </ul>
+      <!-- Botón para agregar -->
+      <a href="/agregar"><i class="fas fa-plus"></i> Agregar libro</a>
+</body>
+</html>
