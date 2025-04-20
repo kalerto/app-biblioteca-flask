@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Mi Biblioteca</title>
-        
-        <!-- Enlace a Font Awesome para los iconos -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        
-        <!-- Enlace a tu CSS personalizado -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (opcional para íconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
 <body>
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Biblioteca</h1>
     
-    <h1>Biblioteca</h1>
-    <h2>Agregar un libro</h2>
-    <form action="/agregar" method="POST">
-        <input type="text" name="titulo" placeholder="Título" required>
-        <input type="text" name="autor" placeholder="Autor" required>
-        <input type="number" name="anio" placeholder="Año" required>
-        <button type="submit">Agregar</button>
-    </form>
-
-    <h2>Libros en la biblioteca</h2>
-    <ul>
-        {% for libro in libros %}
-        <li>
-            {{ libro.titulo }} de {{ libro.autor }} ({{ libro.anio }}) 
-            <a href="/eliminar/{{ libro.titulo }}">Eliminar</a> 
-             <!-- Icono de eliminar -->
-             <a href="/eliminar/{{ loop.index0 }}"><i class="fas fa-trash-alt"></i></a>
-
-            <a href="/editar/{{ libro.titulo }}">Editar</a>
-             <!-- Icono de editar -->
-             <a href="/editar/{{ loop.index0 }}"><i class="fas fa-pencil-alt"></i></a>
-        </li>
-        {% endfor %}
-    </ul>
-      <!-- Botón para agregar -->
-      <a href="/agregar"><i class="fas fa-plus"></i> Agregar libro</a>
-</body>
-</html>
+            <!-- Aquí va tu formulario -->
+            <form method="POST" action="{{ url_for('agregar') }}">
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo" name="titulo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="autor" class="form-label">Autor</label>
+                    <input type="text" class="form-control" id="autor" name="autor" required>
+                </div>
+                <div class="mb-3">
+                    <label for="anio" class="form-label">Año</label>
+                    <input type="number" class="form-control" id="anio" name="anio" required>
+                </div>
+                <button type="submit" class="btn btn-success">Agregar libro</button>
+            </form>
+    
+            <!-- Aquí más adelante puedes mostrar la tabla con los libros -->
+            <h2>Libros en la biblioteca</h2>
+            <ul class="list-group mt-4">
+                {% for libro in libros %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ libro.titulo }} de {{ libro.autor }} ({{ libro.anio }})
+            
+                    <span>
+                        <!-- Botón Eliminar con ícono -->
+                        <a href="{{ url_for('eliminar', id=libro.id) }}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+            
+                        <!-- Botón Editar con ícono -->
+                        <a href="{{ url_for('editar', id=libro.id) }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+            
+              <!-- Botón para agregar -->
+             
+        </div>
+    </body>
+    </html>
+    
